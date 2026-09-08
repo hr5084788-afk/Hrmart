@@ -1,65 +1,105 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HRmart - Local Shopping</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f6f8;
-      color: #222;
-    }
-    header {
-      background: #16a34a;
-      color: white;
-      padding: 18px;
-      text-align: center;
-    }
-    header h1 { margin: 0; font-size: 30px; }
-    header p { margin: 6px 0 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HRmart - Local Shopping</title>
 
-    .hero {
-      background: white;
-      margin: 15px;
-      padding: 22px;
-      border-radius: 15px;
-      text-align: center;
-    }
-    .hero h2 { margin-top: 0; }
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f6f8;
+  color:#222;
+}
+header{
+  background:#16a34a;
+  color:white;
+  text-align:center;
+  padding:16px;
+}
+header h1{margin:0;font-size:28px}
+header p{margin:5px 0 0}
 
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      padding: 15px;
-    }
-    .card {
-      background: white;
-      padding: 22px 10px;
-      border-radius: 14px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      box-shadow: 0 2px 8px #ddd;
-    }
-    .offer {
-      margin: 15px;
-      padding: 20px;
-      border-radius: 14px;
-      background: #fff7ed;
-      text-align: center;
-    }
-    .offer h2 { margin: 5px 0; }
+.hero{
+  background:white;
+  margin:15px;
+  padding:22px;
+  border-radius:15px;
+  text-align:center;
+}
 
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: #666;
-    }
-  </style>
+.categories{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:15px;
+}
+.categories button{
+  border:0;
+  background:white;
+  padding:16px;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+  box-shadow:0 2px 8px #ddd;
+}
+
+.offer{
+  margin:15px;
+  padding:20px;
+  background:#fff5e9;
+  border-radius:15px;
+  text-align:center;
+}
+
+#products{
+  margin:15px;
+}
+
+.product{
+  background:white;
+  padding:15px;
+  margin:10px 0;
+  border-radius:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 8px #ddd;
+}
+
+.product button{
+  background:#16a34a;
+  color:white;
+  border:0;
+  padding:9px 13px;
+  border-radius:8px;
+}
+
+.cart{
+  background:white;
+  margin:15px;
+  padding:18px;
+  border-radius:15px;
+}
+
+.order{
+  width:100%;
+  padding:13px;
+  background:#16a34a;
+  color:white;
+  border:0;
+  border-radius:8px;
+  font-size:16px;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#666;
+}
+</style>
 </head>
 
 <body>
@@ -69,34 +109,154 @@
   <p>Local Shops, Local Delivery</p>
 </header>
 
-<section class="hero">
+<div class="hero">
   <h2>आपके शहर की Local Shopping App</h2>
   <p>अपने आसपास की दुकानों से Grocery, Food और रोज़मर्रा का सामान घर बैठे ऑर्डर करें।</p>
-</section>
-
-<div class="buttons">
-  <div class="card">🛒 Grocery</div>
-  <div class="card">🍕 Pizza</div>
-  <div class="card">🍔 Burger</div>
-  <div class="card">☕ Cafe</div>
 </div>
 
-<section class="offer">
+<div class="categories">
+  <button onclick="showProducts('Grocery')">🛒 Grocery</button>
+  <button onclick="showProducts('Pizza')">🍕 Pizza</button>
+  <button onclick="showProducts('Burger')">🍔 Burger</button>
+  <button onclick="showProducts('Cafe')">☕ Cafe</button>
+</div>
+
+<div class="offer">
   <h2>🎁 Special Offer</h2>
   <p>₹2500 की खरीदारी पर Free Pizza 🍕</p>
-</section>
+</div>
 
-<section class="hero">
+<div id="products"></div>
+
+<div class="cart">
+  <h2>🛒 आपका Cart</h2>
+  <div id="cartItems">Cart खाली है</div>
+  <h3 id="total">Total: ₹0</h3>
+  <button class="order" onclick="placeOrder()">Order करें</button>
+</div>
+
+<div class="offer">
   <h3>📍 Local Delivery</h3>
   <p>4 KM तक Delivery</p>
   <h3>🚚 Food Delivery</h3>
   <p>25 Minutes Target</p>
-</section>
+</div>
 
 <footer>
-  <p>© 2026 HRmart</p>
-  <p>Local Shops • Local Delivery</p>
+  © 2026 HRmart<br>
+  Local Shops • Local Delivery
 </footer>
 
+<script>
+
+const products = {
+  Grocery: [
+    {name:"Rice 5 KG", price:450},
+    {name:"Aashirvaad Atta 5 KG", price:300},
+    {name:"Sugar 1 KG", price:50},
+    {name:"Cooking Oil 1 L", price:140}
+  ],
+
+  Pizza: [
+    {name:"Cheese Pizza", price:199},
+    {name:"Veg Pizza", price:149},
+    {name:"Paneer Pizza", price:249}
+  ],
+
+  Burger: [
+    {name:"Veg Burger", price:79},
+    {name:"Cheese Burger", price:99},
+    {name:"Paneer Burger", price:129}
+  ],
+
+  Cafe: [
+    {name:"Cold Coffee", price:99},
+    {name:"Masala Tea", price:30},
+    {name:"Cappuccino", price:120}
+  ]
+};
+
+let cart = [];
+
+function showProducts(category){
+
+  const box = document.getElementById("products");
+
+  box.innerHTML =
+    "<h2>📦 " + category + "</h2>";
+
+  products[category].forEach((item,index)=>{
+
+    box.innerHTML += `
+      <div class="product">
+        <div>
+          <b>${item.name}</b><br>
+          ₹${item.price}
+        </div>
+
+        <button onclick="addToCart('${category}',${index})">
+          Add
+        </button>
+      </div>
+    `;
+  });
+
+  box.scrollIntoView({behavior:"smooth"});
+}
+
+function addToCart(category,index){
+
+  const item = products[category][index];
+
+  cart.push(item);
+
+  updateCart();
+}
+
+function updateCart(){
+
+  const box = document.getElementById("cartItems");
+
+  if(cart.length === 0){
+    box.innerHTML = "Cart खाली है";
+  }else{
+
+    box.innerHTML = "";
+
+    cart.forEach((item,index)=>{
+      box.innerHTML += `
+        <p>
+          ${item.name} - ₹${item.price}
+          <button onclick="removeItem(${index})">❌</button>
+        </p>
+      `;
+    });
+  }
+
+  let total = cart.reduce((sum,item)=>sum+item.price,0);
+
+  document.getElementById("total").innerText =
+    "Total: ₹" + total;
+}
+
+function removeItem(index){
+
+  cart.splice(index,1);
+
+  updateCart();
+}
+
+function placeOrder(){
+
+  if(cart.length === 0){
+    alert("पहले कोई product Cart में डालें।");
+    return;
+  }
+
+  alert("🎉 आपका Order request तैयार है! जल्द ही Shopkeeper से confirmation होगा।");
+}
+
+</script>
+
 </body>
-  </html>
+</html>
