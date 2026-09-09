@@ -616,31 +616,45 @@ function removeItem(index){
 function placeOrder(){
 
   if(cart.length === 0){
-
-    alert(
-      "⚠️ पहले कोई product Cart में डालें।"
-    );
-
+    alert("⚠️ पहले कोई product Cart में डालें।");
     return;
-
   }
 
-  let total =
-    cart.reduce(
-      (sum,item) =>
-        sum + (item.price * item.qty),
-      0
-    );
+  let name = prompt("👤 अपना नाम लिखें:");
 
-  alert(
-    "🎉 Order तैयार है!\n\n" +
-    "Total: ₹" + total +
-    "\n\nShopkeeper confirmation के बाद order आगे process होगा।"
+  if(!name || name.trim() === ""){
+    alert("नाम जरूरी है।");
+    return;
+  }
+
+  let mobile = prompt("📱 अपना मोबाइल नंबर लिखें:");
+
+  if(!mobile || !/^[0-9]{10}$/.test(mobile)){
+    alert("कृपया 10 अंकों का सही मोबाइल नंबर डालें।");
+    return;
+  }
+
+  let address = prompt("📍 अपना पूरा Delivery Address लिखें:");
+
+  if(!address || address.trim() === ""){
+    alert("Delivery Address जरूरी है।");
+    return;
+  }
+
+  let total = cart.reduce(
+    (sum,item) => sum + (item.price * item.qty),
+    0
   );
 
-}
+  let orderDetails =
+    "🎉 HRmart Order\n\n" +
+    "👤 Name: " + name + "\n" +
+    "📱 Mobile: " + mobile + "\n" +
+    "📍 Address: " + address + "\n" +
+    "💰 Total: ₹" + total + "\n" +
+    "💳 Payment: Cash on Delivery";
 
-</script>
-
+  alert(orderDetails + "\n\n✅ Order request तैयार है!");
+  }</script>
 </body>
-</html>
+</html
