@@ -646,15 +646,32 @@ function placeOrder(){
     0
   );
 
-  let orderDetails =
-    "🎉 HRmart Order\n\n" +
+  let items = cart.map(item =>
+    item.name + " x " + item.qty +
+    " = ₹" + (item.price * item.qty)
+  ).join("\n");
+
+  let message =
+    "🛍️ *HRmart New Order*\n\n" +
     "👤 Name: " + name + "\n" +
     "📱 Mobile: " + mobile + "\n" +
-    "📍 Address: " + address + "\n" +
-    "💰 Total: ₹" + total + "\n" +
+    "📍 Address: " + address + "\n\n" +
+    "🛒 *Products:*\n" +
+    items + "\n\n" +
+    "💰 *Total: ₹" + total + "*\n" +
     "💳 Payment: Cash on Delivery";
 
-  alert(orderDetails + "\n\n✅ Order request तैयार है!");
-  }</script>
+  let whatsappNumber = "917852858208";
+
+  let whatsappURL =
+    "https://wa.me/" +
+    whatsappNumber +
+    "?text=" +
+    encodeURIComponent(message);
+
+  window.open(whatsappURL, "_blank");
+
+  }
+</script>
 </body>
 </html
